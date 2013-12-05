@@ -7023,7 +7023,34 @@ wysihtml5.Commands = Base.extend(
       return undef;
     }
   };
-})(wysihtml5);(function(wysihtml5) {
+})(wysihtml5);
+
+
+/**
+ * document.execCommand("backgroundColor") will create either inline styles (firefox, chrome) or use font tags
+ * which we don't want
+ * Instead we set a css class
+ */
+(function(wysihtml5) {
+  var undef,
+      REG_EXP = /wysiwyg-bgcolor-[a-z]+/g;
+
+  wysihtml5.commands.backgroundColor = {
+    exec: function(composer, command, color) {
+      return wysihtml5.commands.formatInline.exec(composer, command, "span", "wysiwyg-bgcolor-" + color, REG_EXP);
+    },
+
+    state: function(composer, command, color) {
+      return wysihtml5.commands.formatInline.state(composer, command, "span", "wysiwyg-bgcolor-" + color, REG_EXP);
+    },
+
+    value: function() {
+      return undef;
+    }
+  };
+})(wysihtml5);
+
+(function(wysihtml5) {
   var undef,
       dom                     = wysihtml5.dom,
       DEFAULT_NODE_NAME       = "DIV",
