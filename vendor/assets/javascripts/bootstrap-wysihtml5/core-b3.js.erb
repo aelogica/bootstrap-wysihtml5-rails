@@ -6,7 +6,7 @@
             var size = (options && options.size) ? ' btn-'+options.size : '';
             return "<li class='dropdown'>" +
               "<a class='btn btn-default btn" + size + " dropdown-toggle' data-toggle='dropdown' href='#'>" +
-              "<i class='glyphicon glyphicon-font'></i>&nbsp;<span class='current-font'>" + locale.font_styles.normal + "</span>&nbsp;<b class='caret'></b>" +
+              "<i class='glyphicon glyphicon-font'></i>&nbsp;<b class='caret'></b>" +
               "</a>" +
               "<ul class='dropdown-menu'>" +
                 "<li><a data-wysihtml5-command='formatBlock' data-wysihtml5-command-value='div' tabindex='-1'>" + locale.font_styles.normal + "</a></li>" +
@@ -104,8 +104,8 @@
         "color": function(locale, options) {
             var size = (options && options.size) ? ' btn-'+options.size : '';
             return "<li class='dropdown'>" +
-              "<a class='btn btn-default dropdown-toggle" + size + "' data-toggle='dropdown' href='#' tabindex='-1'>" +
-                "<span class='current-color'>" + locale.colours.black + "</span>&nbsp;<b class='caret'></b>" +
+              "<a class='btn btn-default dropdown-toggle" + size + "' data-toggle='dropdown' href='#' tabindex='-1' data-toggle='tooltip' title='Change text color'>" +
+                "<i class='glyphicon glyphicon-eye-open'></i>&nbsp;<b class='caret'></b>" +
               "</a>" +
               "<ul class='dropdown-menu'>" +
                 "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='black'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='black'>" + locale.colours.black + "</a></li>" +
@@ -119,6 +119,28 @@
                 "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='navy'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='navy'>" + locale.colours.navy + "</a></li>" +
                 "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='blue'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='blue'>" + locale.colours.blue + "</a></li>" +
                 "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='orange'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='orange'>" + locale.colours.orange + "</a></li>" +
+              "</ul>" +
+            "</li>";
+        },
+
+        "backgroundColor": function(locale, options) {
+            var size = (options && options.size) ? ' btn-'+options.size : '';
+            return "<li class='dropdown'>" +
+              "<a class='btn btn-default dropdown-toggle" + size + "' data-toggle='dropdown' href='#' tabindex='-1' data-toggle='tooltip' title='Highlight text'>" +
+                "<i class='glyphicon glyphicon-pencil'></i>&nbsp;<b class='caret'></b>" +
+              "</a>" +
+              "<ul class='dropdown-menu'>" +
+                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='black'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='backgroundColor' data-wysihtml5-command-value='black'>" + locale.colours.black + "</a></li>" +
+                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='silver'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='backgroundColor' data-wysihtml5-command-value='silver'>" + locale.colours.silver + "</a></li>" +
+                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='gray'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='backgroundColor' data-wysihtml5-command-value='gray'>" + locale.colours.gray + "</a></li>" +
+                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='maroon'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='backgroundColor' data-wysihtml5-command-value='maroon'>" + locale.colours.maroon + "</a></li>" +
+                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='red'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='backgroundColor' data-wysihtml5-command-value='red'>" + locale.colours.red + "</a></li>" +
+                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='purple'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='backgroundColor' data-wysihtml5-command-value='purple'>" + locale.colours.purple + "</a></li>" +
+                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='green'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='backgroundColor' data-wysihtml5-command-value='green'>" + locale.colours.green + "</a></li>" +
+                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='olive'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='backgroundColor' data-wysihtml5-command-value='olive'>" + locale.colours.olive + "</a></li>" +
+                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='navy'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='backgroundColor' data-wysihtml5-command-value='navy'>" + locale.colours.navy + "</a></li>" +
+                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='blue'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='backgroundColor' data-wysihtml5-command-value='blue'>" + locale.colours.blue + "</a></li>" +
+                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='orange'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='backgroundColor' data-wysihtml5-command-value='orange'>" + locale.colours.orange + "</a></li>" +
               "</ul>" +
             "</li>";
         }
@@ -219,6 +241,12 @@
             });
 
             toolbar.find("a[data-wysihtml5-command='foreColor']").click(function(e) {
+                var target = e.target || e.srcElement;
+                var el = $(target);
+                self.toolbar.find('.current-color').text(el.html());
+            });
+
+            toolbar.find("a[data-wysihtml5-command='backgroundColor']").click(function(e) {
                 var target = e.target || e.srcElement;
                 var el = $(target);
                 self.toolbar.find('.current-color').text(el.html());
@@ -395,6 +423,7 @@
     var defaultOptions = $.fn.wysihtml5.defaultOptions = {
         "font-styles": true,
         "color": false,
+        "backgroundColor": true,
         "emphasis": true,
         "lists": true,
         "html": false,
@@ -419,7 +448,23 @@
                 "wysiwyg-color-blue" : 1,
                 "wysiwyg-color-teal" : 1,
                 "wysiwyg-color-aqua" : 1,
-                "wysiwyg-color-orange" : 1
+                "wysiwyg-color-orange" : 1,
+                "wysiwyg-bgcolor-silver" : 1,
+                "wysiwyg-bgcolor-gray" : 1,
+                "wysiwyg-bgcolor-white" : 1,
+                "wysiwyg-bgcolor-maroon" : 1,
+                "wysiwyg-bgcolor-red" : 1,
+                "wysiwyg-bgcolor-purple" : 1,
+                "wysiwyg-bgcolor-fuchsia" : 1,
+                "wysiwyg-bgcolor-green" : 1,
+                "wysiwyg-bgcolor-lime" : 1,
+                "wysiwyg-bgcolor-olive" : 1,
+                "wysiwyg-bgcolor-yellow" : 1,
+                "wysiwyg-bgcolor-navy" : 1,
+                "wysiwyg-bgcolor-blue" : 1,
+                "wysiwyg-bgcolor-teal" : 1,
+                "wysiwyg-bgcolor-aqua" : 1,
+                "wysiwyg-bgcolor-orange" : 1
             },
             tags: {
                 "b":  {},
